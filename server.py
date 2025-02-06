@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 import google.generativeai as genai
 from http import HTTPStatus
+from pydantic import BaseModel
 
 # Create FastAPI app instance
 app = FastAPI()
