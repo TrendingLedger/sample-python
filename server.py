@@ -7,9 +7,9 @@ from http import HTTPStatus
 app = FastAPI()
 
 # Define the GET endpoint
-@app.get("/", response_class=HTMLResponse)
-def read_root():
-    msg = f'Hello WORLD CHANGES! you requested {str(app)}'  # Similar to your original message
+@app.get("/{path_param}", response_class=HTMLResponse)
+def read_root(path_param: str):
+    msg = f'Hello WORLD CHANGES! You requested the path: {path_param}'
     return HTMLResponse(content=msg, status_code=HTTPStatus.OK)
 
 # Set the port from the environment variable, defaulting to 80
