@@ -10,7 +10,7 @@ app = FastAPI()
 
 # Set up CORS middleware
 origins = [
-    "https://www.walletlistener.com",  # Allow only this domain
+    "*",  # Allow only this domain
 ]
 
 app.add_middleware(
@@ -23,7 +23,7 @@ app.add_middleware(
 
 # Set up the API with Gemini API and your secret code validation
 SECRET_CODE = "98765123450"
-gemini_api_key = os.getenv("GEMINI_API_KEY")
+gemini_api_key = os.getenv("GEMINIAI_API_KEY")
 genai.configure(api_key=gemini_api_key)
 
 class UserRequest(BaseModel):
