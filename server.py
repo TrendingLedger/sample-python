@@ -22,8 +22,9 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,  # Allow specific origin
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allow all headers, including Content-Type
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
+    expose_headers=["Content-Type"]
 )
 
 # Set up the API with Gemini API and your secret code validation
