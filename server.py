@@ -54,8 +54,8 @@ async def options():
 @app.post("/process_request/")
 async def process_request(request: UserRequest):
     # Validate the code
-    if request.code != SECRET_CODE:
-        raise HTTPException(status_code=HTTPStatus.FORBIDDEN, detail="Invalid secret code")
+    """ if request.code != SECRET_CODE:
+        raise HTTPException(status_code=HTTPStatus.FORBIDDEN, detail="Invalid secret code") """
     
     # Start chat with the AI model
     chat_session = model.start_chat(
