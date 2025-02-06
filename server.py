@@ -1,5 +1,7 @@
 import os
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
 from pydantic import BaseModel
 import google.generativeai as genai
 from http import HTTPStatus
@@ -13,6 +15,20 @@ genai.configure(api_key=gemini_api_key)
 
 # FastAPI app instance
 app = FastAPI()
+
+# Allow requests from the domain "https://www.walletlistener.com"
+origins = [
+    "https://www.walletlistener.com",
+]
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Allow specific domains
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers, including Content-Type
+)
 
 # Set up the secret code for validation
 SECRET_CODE = "98765123450"
