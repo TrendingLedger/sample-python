@@ -1,44 +1,34 @@
-import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-
-from pydantic import BaseModel
+import os
 import google.generativeai as genai
 from http import HTTPStatus
 
-# Access the environment variable
-gemini_api_key = os.getenv("GEMINIAI_API_KEY")
-
-# Configure Google Generative AI with your API key
-import google.generativeai as genai
-genai.configure(api_key=gemini_api_key)
-
-# FastAPI app instance
+# Create FastAPI app instance
 app = FastAPI()
 
-# Allow requests from the domain "https://www.walletlistener.com"
+# Set up CORS middleware
 origins = [
-    "https://www.walletlistener.com",
+    "https://www.walletlistener.com",  # Allow only this domain
 ]
 
-# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # Allow specific domains
+    allow_origins=origins,  # Allow specific origin
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP methods
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, etc.)
     allow_headers=["*"],  # Allow all headers, including Content-Type
 )
 
-# Set up the secret code for validation
+# Set up the API with Gemini API and your secret code validation
 SECRET_CODE = "98765123450"
+gemini_api_key = os.getenv("GEMINI_API_KEY")
+genai.configure(api_key=gemini_api_key)
 
-# Define the input model for the user request
 class UserRequest(BaseModel):
     code: str
     user_input: str
 
-# Set up the model configuration
 generation_config = {
     "temperature": 0,
     "top_p": 0.95,
@@ -69,15 +59,14 @@ async def process_request(request: UserRequest):
         ]
     )
 
-    # Get the AI response
     response = chat_session.send_message(request.user_input)
     return {"message": response.text}
 
-# Set the port from the environment variable, defaulting to 80
+# Set port and run app
 port = int(os.getenv('PORT', 80))
 
-# Run the app using uvicorn (for local testing)
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=port)
+
 
