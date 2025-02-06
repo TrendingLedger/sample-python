@@ -29,6 +29,7 @@ genai.configure(api_key=gemini_api_key)
 class UserRequest(BaseModel):
     code: str
     user_input: str
+    chat_history: list[dict]
 
 generation_config = {
     "temperature": 0,
@@ -59,7 +60,7 @@ async def process_request(request: UserRequest):
     
     # Start chat with the AI model
     chat_session = model.start_chat(
-        history=[
+        history=request.chat_history if request.chat_history else [
             {
                 "role": "user",
                 "parts": [request.user_input],
