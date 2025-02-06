@@ -44,6 +44,13 @@ model = genai.GenerativeModel(
     system_instruction="user is new to crypto. welcoming language. response is in json format of the message for the user and the relevant data gathered.",
 )
 
+@app.options("/process_request/")
+async def options():
+    return JSONResponse(
+        status_code=HTTPStatus.OK,
+        content={"message": "CORS preflight request successful"}
+    )
+
 @app.post("/process_request/")
 async def process_request(request: UserRequest):
     # Validate the code
