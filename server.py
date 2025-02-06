@@ -10,7 +10,12 @@ app = FastAPI()
 
 # Set up CORS middleware
 origins = [
-    "*",  # Allow only this domain
+    "http://localhost:3000",     # Local development
+    "http://localhost:5173",     # Vite default port
+    "https://walletlistener.com",    # Production domain
+    "https://*.walletlistener.com",  # Wildcard subdomains
+    "https://www.walletlistener.com",
+    "*"                          # Allow all origins (use with caution)
 ]
 
 app.add_middleware(
